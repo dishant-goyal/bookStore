@@ -8,16 +8,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const allowedOrigins = [
-  "http://localhost:5173", // local dev
-  process.env.CLIENT_URL    // deployed frontend
-];
+import cors from "cors";
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: ["http://localhost:5173", "https://paperpulse-frontend.vercel.app"],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+  credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
