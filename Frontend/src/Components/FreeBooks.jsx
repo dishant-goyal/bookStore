@@ -14,7 +14,7 @@ function FreeBooks() {
 
     const getBooks=async()=>{
         try {
-        const response = await axios.get("http://localhost:3000/api/v1/book/getAllBooks", {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/book/getAllBooks`, {
           withCredentials: true, // only if you're using cookies / JWT
         });
         let data=response.data.data.filter((data) => data.category === "Free");
