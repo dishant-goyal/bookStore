@@ -6,30 +6,21 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 const app = express();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://paperpulse-kappa.vercel.app" // ✅ your real deployed frontend
-];
-
+// ✅ Allow both localhost (for dev) and your deployed frontend (for production)
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: [
+    "http://localhost:5173",
+    "https://paperpulse-kappa.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
 app.use("/api/v1/book", bookRoutes);
 app.use("/api/v1/user", userRoutes);
 
