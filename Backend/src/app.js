@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-import cors from "cors";
+
 
 app.use(cors({
   origin: ["http://localhost:5173", "https://paperpulse-frontend.vercel.app"],
