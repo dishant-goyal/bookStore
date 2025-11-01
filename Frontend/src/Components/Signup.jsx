@@ -1,19 +1,44 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Login from "./Login";
-
+import axios from "axios"
 function Signup() {
+  const navigate=useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("✅ Submitted data:", data);
-    // You can handle signup API here, then redirect or close modal
-  };
+ const onSubmit = async (data) => {
+  try {
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/user/register`,
+      userInfo,
+      { withCredentials: true }
+    );
+
+    if (res.data.success) {
+      localStorage.setItem("User",JSON.stringify(userInfo.email))
+      alert("Signup successful!");
+      navigate('/')
+      
+    } else {
+      alert(res.data.message || "Signup failed!");
+    }
+  } catch (error) {
+    console.error("Error during signup:", error);
+    alert(error.response?.data?.message || "Something went wrong!");
+  }
+};
+
 
   return (
     <div className="flex h-screen items-center justify-center">
